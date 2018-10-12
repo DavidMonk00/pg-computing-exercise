@@ -26,7 +26,7 @@ Track** readFile(string filename) {
 
 
 int main(int argc, char const *argv[]) {
-  Track** tracks = readFile("./data/manytracks.raw");
+  Track** tracks = readFile("./data/onetrack.raw");
   std::cout << "Done" << '\n';
   return 0;
 }

@@ -7,7 +7,7 @@ Track::Track(char* data) {
     hits_temp[0] = data[2*i];
     hits_temp[1] = data[2*i+1];
     hits[i] = new Hit(hits_temp);
-    //hits[i]->printValues();
+    hits[i]->printValues();
   }
 }
 
