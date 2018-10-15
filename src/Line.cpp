@@ -9,6 +9,15 @@ Line::Line(Hit* hit0, Hit* hit1) {
   y[1] = hit1->getY();
 }
 
+Line::Line(float* xl, float* yl){
+  x = (float*)malloc(2*sizeof(float));
+  y = (float*)malloc(2*sizeof(float));
+  x[0] = xl[0];
+  x[1] = xl[1];
+  y[0] = yl[0];
+  y[1] = yl[1];
+}
+
 Line::~Line() {
   free(x);
   free(y);
@@ -26,6 +35,11 @@ float* Line::getX() {
 
 float* Line::getY() {
   return y;
+}
+
+void Line::setY(float y0, float y1) {
+  y[0] = y0;
+  y[1] = y1;
 }
 
 float Line::distanceToPoint(Hit* hit) {

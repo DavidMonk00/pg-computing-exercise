@@ -10,18 +10,44 @@ Track::Track(char* data) {
   }
 }
 
-Track::~Track() {}
+Track::~Track() {
+  for (int i = 0; i < NUMBER_OF_LAYERS; i++) {
+    delete hits[i];
+  }
+  free(hits);
+}
 
-void Track::fit(int N) {
+float getRandomStep() {
+  return 2*(float)std::rand()/RAND_MAX - 1;
+}
+
+void Track::fit(int N, float v_alpha, float l_alpha) {
   float v = 0.005;
+  float y0_prev, y1_prev;
   Line* line = new Line(hits[0], hits[NUMBER_OF_LAYERS-1]);
   float e = 0;
   for (int i = 0; i < NUMBER_OF_LAYERS; i++) {
     e += std::abs(hits[i]->getTDC()*v - line->distanceToPoint(hits[i]));
   }
   for (int i = 0; i < N; i++) {
-    float v_new = v;
-
+    float v_new = v + v_alpha*getRandomStep();
+    y0_prev = line->y[0];
+    y1_prev = line->y[1];
+    line->y[0] += l_alpha*getRandomStep();
+    line->y[1] += l_alpha*getRandomStep();
+    float e_new = 0;
+    for (int j = 0; j < NUMBER_OF_LAYERS; j++) {
+      e_new += std::abs(hits[j]->getTDC()*v_new - line->distanceToPoint(hits[j]));
+    }
+    if (e_new < e) {
+      e = e_new;
+      v = v_new;
+    } else {
+      line->y[0] = y0_prev;
+      line->y[1] = y1_prev;
+    }
   }
-  std::cout << RAND_MAX << '\n';
+  std::cout << e << '\n';
+  delete line;
+  //td::cout << getRandomStep() << '\n';
 }

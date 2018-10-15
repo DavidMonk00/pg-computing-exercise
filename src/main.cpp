@@ -3,19 +3,19 @@
 using namespace std;
 
 
-Track** readFile(string filename) {
+std::vector<Track*> readFile(string filename) {
   streampos size;
-  Track** tracks;
+  std::vector<Track*> tracks;
   std::ifstream file(filename, ios::in|ios::binary|ios::ate);
   if (file.is_open()) {
     size = file.tellg();
     int number_tracks = size/TRACK_SIZE;
-    tracks = (Track**)malloc(number_tracks*sizeof(Track*));
+    (Track**)malloc(number_tracks*sizeof(Track*));
     file.seekg (0,ios::beg);
     for (int i = 0; i < number_tracks; i++) {
       char track[TRACK_SIZE];
       file.read(track, TRACK_SIZE);
-      tracks[i] = new Track(track);
+      tracks.push_back(new Track(track));
     }
     file.close();
   } else {
@@ -26,7 +26,11 @@ Track** readFile(string filename) {
 
 
 int main(int argc, char const *argv[]) {
-  Track** tracks = readFile("./data/onetrack.raw");
-  tracks[0]->fit(10);
+  std::srand(std::time(NULL));
+  std::vector<Track*> tracks = readFile("./data/onetrack.raw");
+  for (auto i : tracks) {
+    i->fit(1000, 0.001, 0.1);
+    delete i;
+  }
   return 0;
 }

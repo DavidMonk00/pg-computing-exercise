@@ -3,7 +3,10 @@
 #include <fstream>
 #include <iterator>
 #include <vector>
+#include <ctime>
+#include <cstdlib>
+#include <array>
 #include "constants.hpp"
 #include "Track.hpp"
 
-Track** readFile(std::string filename);
+std::vector<Track*> readFile(std::string filename);
