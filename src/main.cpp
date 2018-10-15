@@ -27,9 +27,9 @@ std::vector<Track*> readFile(string filename) {
 
 int main(int argc, char const *argv[]) {
   std::srand(std::time(NULL));
-  std::vector<Track*> tracks = readFile("./data/onetrack.raw");
+  std::vector<Track*> tracks = readFile("./data/manytracks.raw");
   for (auto i : tracks) {
-    i->fit(1000, 0.001, 0.1);
+    i->fit(100, 0.001, 0.1);
     delete i;
   }
   return 0;

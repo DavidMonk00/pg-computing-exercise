@@ -29,7 +29,8 @@ void Track::fit(int N, float v_alpha, float l_alpha) {
   for (int i = 0; i < NUMBER_OF_LAYERS; i++) {
     e += std::abs(hits[i]->getTDC()*v - line->distanceToPoint(hits[i]));
   }
-  for (int i = 0; i < N; i++) {
+  int i;
+  for (i = 0; i < N; i++) {
     float v_new = v + v_alpha*getRandomStep();
     y0_prev = line->y[0];
     y1_prev = line->y[1];
@@ -46,8 +47,10 @@ void Track::fit(int N, float v_alpha, float l_alpha) {
       line->y[0] = y0_prev;
       line->y[1] = y1_prev;
     }
+    if (e/NUMBER_OF_LAYERS < 0.005) {
+      break;
+    }
   }
-  std::cout << e << '\n';
+  //std::cout << i << " " << v << '\n';
   delete line;
-  //td::cout << getRandomStep() << '\n';
 }
