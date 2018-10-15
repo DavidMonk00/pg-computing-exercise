@@ -27,6 +27,6 @@ Track** readFile(string filename) {
 
 int main(int argc, char const *argv[]) {
   Track** tracks = readFile("./data/onetrack.raw");
-  std::cout << "Done" << '\n';
+  tracks[0]->fit(10);
   return 0;
 }

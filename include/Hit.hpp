@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <cstdlib>
+#include <cmath>
 
 class Hit {
 private:
@@ -9,4 +11,7 @@ public:
   Hit (char* data);
   ~Hit ();
   void printValues();
+  float getX();
+  float getY();
+  float getTDC();
 };
