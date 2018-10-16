@@ -51,6 +51,6 @@ void Track::fit(int N, float v_alpha, float l_alpha) {
       break;
     }
   }
-  //std::cout << i << " " << v << '\n';
+  std::cout << line->getGradient() << " " << v << '\n';
   delete line;
 }

@@ -6,6 +6,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <array>
+#include <thread>
 #include "constants.hpp"
 #include "Track.hpp"
 
