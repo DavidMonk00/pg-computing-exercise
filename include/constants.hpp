@@ -7,4 +7,4 @@
 #define V_ALPHA 0.02
 #define P_ALPHA 0.2
 #define ERROR_THRESHOLD 33
-#define MAX_ITERATIONS 100
+#define MAX_ITERATIONS 99
