@@ -56,7 +56,8 @@ int main(int argc, char const *argv[]) {
   std::cout << concurentThreadsSupported << '\n';
   std::srand(std::time(NULL));
   std::vector<Track*> tracks = readFile("./data/manytracks.raw");
-  track_params* track_parameters = (track_params*)malloc(tracks.size()*sizeof(track_params));
+  int track_number = tracks.size();
+  track_params* track_parameters = (track_params*)malloc(track_number*sizeof(track_params));
   std::cout << "File read, starting fitting..." << '\n';
   std::vector<std::thread> threads;
   for (int i = 0; i < concurentThreadsSupported; i++) {
@@ -66,6 +67,7 @@ int main(int argc, char const *argv[]) {
     threads.at(i).join();
     delete tracks[i];
   }
+  getStats(track_parameters, track_number);
   free(track_parameters);
   return 0;
 }
