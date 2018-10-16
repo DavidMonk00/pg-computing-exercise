@@ -75,3 +75,15 @@ void TrackerStatistics::getStats() {
   }
   std::cout << g_mean/number_tracks << " " << v_mean/number_tracks << '\n';
 }
+
+void TrackerStatistics::saveData(std::string filename) {
+  std::ofstream myfile (filename);
+  if (myfile.is_open()) {
+    for (int i = 0; i < number_tracks; i++) {
+      myfile << track_parameters[i].gradient << ",";
+      myfile << track_parameters[i].v << "\n";
+    }
+    myfile.close();
+  }
+  else std::cout << "Unable to open file";
+}

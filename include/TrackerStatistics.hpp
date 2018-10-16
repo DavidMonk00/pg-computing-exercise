@@ -29,4 +29,5 @@ public:
   void readFile(std::string filename);
   void fit();
   void getStats();
+  void saveData(std::string filename);
 };

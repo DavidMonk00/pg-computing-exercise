@@ -5,6 +5,7 @@ int main(int argc, char const *argv[]) {
   ts->readFile("./data/manytracks.raw");
   ts->fit();
   ts->getStats();
+  ts->saveData("./data/output.csv");
   delete ts;
   return 0;
 }
