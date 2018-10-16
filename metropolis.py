@@ -23,6 +23,15 @@ def distanceFromLine(point, line):
     return d
 
 
+def sweep(track):
+    P = [track[0][:2], track[7][:2]]
+    e = []
+    for i in np.linspace(0, 0.1, 20):
+        for j in np.linspace(0, 5, 20):
+            for k in np.linspace(0, 5, 20):
+
+
+
 def metrolpolis(track, r, alpha, N):
     counter = 0
     P = [track[0][:2], track[7][:2]]

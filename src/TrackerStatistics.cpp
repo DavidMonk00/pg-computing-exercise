@@ -9,8 +9,10 @@ void threadCallBack(
 {
   for (int i = id; i < tracks->size(); i = i + concurentThreadsSupported) {
     track_parameters[i] = tracks->at(i)->fit(NUMBER_OF_ITERATIONS, V_ALPHA, P_ALPHA);
-    if (i % (tracks->size()/100) == 0) {
-      std::cout << i << '\n';
+    if (concurentThreadsSupported > 1) {
+      if (i % (tracks->size()/100) == 0) {
+        std::cout << i << '\n';
+      }
     }
   }
 }
@@ -49,17 +51,24 @@ void TrackerStatistics::readFile(std::string filename) {
 void TrackerStatistics::fit() {
   track_parameters = (track_params*)malloc(number_tracks*sizeof(track_params));
   std::vector<std::thread> threads;
-  for (int i = 0; i < concurentThreadsSupported; i++) {
-     threads.push_back(std::thread(threadCallBack, &tracks, track_parameters, concurentThreadsSupported, i));
-   }
-  for (int i = 0; i < concurentThreadsSupported; i++) {
-    threads.at(i).join();
+  if (number_tracks > concurentThreadsSupported) {
+    for (int i = 0; i < concurentThreadsSupported; i++) {
+       threads.push_back(std::thread(threadCallBack, &tracks, track_parameters, concurentThreadsSupported, i));
+     }
+    for (int i = 0; i < concurentThreadsSupported; i++) {
+      threads.at(i).join();
+    }
+  } else {
+    std::cout << "Running sequentially..." << '\n';
+    threadCallBack(&tracks, track_parameters, 1, 0);
   }
+  std::cout << "Fit done." << '\n';
 }
 
 void TrackerStatistics::getStats() {
   float g_mean = 0;
   float v_mean = 0;
+  std::cout << "Running analysis..." << '\n';
   for (int i = 0; i < number_tracks; i++) {
     g_mean += track_parameters[i].gradient;
     v_mean += track_parameters[i].v;
