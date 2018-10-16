@@ -24,14 +24,30 @@ std::vector<Track*> readFile(string filename) {
 }
 
 
-void threadCallBack(std::vector<Track*>* tracks, track_params* track_parameters, signed concurentThreadsSupported, int id) {
+void threadCallBack(
+  std::vector<Track*>* tracks,
+  track_params* track_parameters,
+  signed concurentThreadsSupported,
+  int id
+)
+{
   for (int i = id; i < tracks->size(); i = i + concurentThreadsSupported) {
     track_parameters[i] = tracks->at(i)->fit(NUMBER_OF_ITERATIONS, V_ALPHA, P_ALPHA);
     if (i % (tracks->size()/100) == 0) {
       std::cout << i << '\n';
     }
   }
+}
 
+
+void getStats(track_params* track_parameters, int size) {
+  float g_mean = 0;
+  float v_mean = 0;
+  for (int i = 0; i < size; i++) {
+    g_mean += track_parameters[i].gradient;
+    v_mean += track_parameters[i].v;
+  }
+  std::cout << g_mean/size << " " << v_mean/size << '\n';
 }
 
 
