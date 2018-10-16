@@ -9,5 +9,6 @@
 #include <thread>
 #include "constants.hpp"
 #include "Track.hpp"
+#include "TrackerStatistics.hpp"
 
 std::vector<Track*> readFile(std::string filename);
