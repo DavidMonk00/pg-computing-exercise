@@ -5,6 +5,11 @@
 #include "Hit.hpp"
 #include "Line.hpp"
 
+struct track_params {
+  float gradient;
+  float v;
+};
+
 class Track {
 private:
   Hit** hits;
@@ -12,5 +17,5 @@ private:
 public:
   Track (char* data);
   ~Track ();
-  void fit(int N, float v_alpha, float l_alpha);
+  track_params fit(int N, float v_alpha, float l_alpha);
 };

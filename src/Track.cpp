@@ -21,7 +21,7 @@ float getRandomStep() {
   return 2*(float)std::rand()/RAND_MAX - 1;
 }
 
-void Track::fit(int N, float v_alpha, float l_alpha) {
+track_params Track::fit(int N, float v_alpha, float l_alpha) {
   float v = 0.005;
   float y0_prev, y1_prev;
   Line* line = new Line(hits[0], hits[NUMBER_OF_LAYERS-1]);
@@ -53,4 +53,8 @@ void Track::fit(int N, float v_alpha, float l_alpha) {
   }
   //std::cout << line->getGradient() << " " << v << '\n';
   delete line;
+  track_params t;
+  t.gradient = line->getGradient();
+  t.v = v;
+  return t;
 }
