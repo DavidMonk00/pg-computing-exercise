@@ -11,7 +11,7 @@ void threadCallBack(
     track_parameters[i] = tracks->at(i)->fit(NUMBER_OF_ITERATIONS, V_ALPHA, P_ALPHA);
     if (concurentThreadsSupported > 1) {
       if (i % (tracks->size()/100) == 0) {
-        std::cout << i << '\n';
+        std::cout << i*100/tracks->size() << "\%" << '\n';
       }
     }
   }
