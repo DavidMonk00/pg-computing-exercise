@@ -32,10 +32,12 @@ track_params Track::fit(int N, float v_alpha, float l_alpha) {
     e += std::abs(hits[i]->getTDC()*v*hits[i]->getTDC()*v - line->distanceSquaredToPoint(hits[i]));
   }
   float e_new;
+  float v_new;
   while (e/NUMBER_OF_LAYERS > ERROR_THRESHOLD ^ counter == MAX_ITERATIONS) {
     counter++;
     e_new = 0;
-    float v_new = v + v_alpha*getRandomStep();
+    v_new = v + v_alpha*getRandomStep();
+    v_new = (v_new > 0) ? v_new : v;
     y0_prev = line->y[0];
     y1_prev = line->y[1];
     line->y[0] += l_alpha*getRandomStep();
