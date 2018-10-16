@@ -10,7 +10,6 @@ std::vector<Track*> readFile(string filename) {
   if (file.is_open()) {
     size = file.tellg();
     int number_tracks = size/TRACK_SIZE;
-    (Track**)malloc(number_tracks*sizeof(Track*));
     file.seekg (0,ios::beg);
     for (int i = 0; i < number_tracks; i++) {
       char track[TRACK_SIZE];
@@ -27,7 +26,7 @@ std::vector<Track*> readFile(string filename) {
 
 void threadCallBack(std::vector<Track*>* tracks, unsigned concurentThreadsSupported, int id) {
   for (int i = id; i < tracks->size(); i = i + concurentThreadsSupported) {
-    tracks->at(i)->fit(10, 0.001, 0.1);
+    tracks->at(i)->fit(NUMBER_OF_ITERATIONS, V_ALPHA, P_ALPHA);
   }
 
 }
@@ -38,6 +37,7 @@ int main(int argc, char const *argv[]) {
   std::cout << concurentThreadsSupported << '\n';
   std::srand(std::time(NULL));
   std::vector<Track*> tracks = readFile("./data/manytracks.raw");
+  std::cout << "File read, starting fitting..." << '\n';
   std::vector<std::thread> threads;
   for (int i = 0; i < concurentThreadsSupported; i++) {
      threads.push_back(std::thread(threadCallBack, &tracks, concurentThreadsSupported, i));
