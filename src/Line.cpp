@@ -42,10 +42,10 @@ void Line::setY(float y0, float y1) {
   y[1] = y1;
 }
 
-float Line::distanceToPoint(Hit* hit) {
+float Line::distanceSquaredToPoint(Hit* hit) {
   float xp = hit->getX();
   float yp = hit->getY();
-  float d = std::abs((y[1]-y[0])*xp - (x[1] - x[0])*yp + x[1]*y[0] - y[1]*x[0])/
-            std::sqrt((y[1] - y[0])*(y[1] - y[0]) + (x[1] - x[0])*(x[1] - x[0]));
+  float d = ((y[1]-y[0])*xp - (x[1] - x[0])*yp + x[1]*y[0] - y[1]*x[0])*((y[1]-y[0])*xp - (x[1] - x[0])*yp + x[1]*y[0] - y[1]*x[0]) /
+            (y[1] - y[0])*(y[1] - y[0]) + (x[1] - x[0])*(x[1] - x[0]);
   return d;
 }

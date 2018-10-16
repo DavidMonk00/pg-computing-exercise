@@ -29,10 +29,10 @@ track_params Track::fit(int N, float v_alpha, float l_alpha) {
   Line* line = new Line(hits[0], hits[NUMBER_OF_LAYERS-1]);
   float e = 0;
   for (i = 0; i < NUMBER_OF_LAYERS; i++) {
-    e += std::abs(hits[i]->getTDC()*v - line->distanceToPoint(hits[i]));
+    e += std::abs(hits[i]->getTDC()*v*hits[i]->getTDC()*v - line->distanceSquaredToPoint(hits[i]));
   }
   float e_new;
-  while (e/NUMBER_OF_LAYERS > 0.05 ^ counter == 1e3) {
+  while (e/NUMBER_OF_LAYERS > ERROR_THRESHOLD ^ counter == MAX_ITERATIONS) {
     counter++;
     e_new = 0;
     float v_new = v + v_alpha*getRandomStep();
@@ -41,7 +41,7 @@ track_params Track::fit(int N, float v_alpha, float l_alpha) {
     line->y[0] += l_alpha*getRandomStep();
     line->y[1] += l_alpha*getRandomStep();
     for (j = 0; j < NUMBER_OF_LAYERS; j++) {
-      e_new += std::abs(hits[j]->getTDC()*v_new - line->distanceToPoint(hits[j]));
+      e_new += std::abs(hits[j]->getTDC()*v_new*hits[j]->getTDC()*v_new - line->distanceSquaredToPoint(hits[j]));
     }
     if (e_new < e) {
       e = e_new;
@@ -51,6 +51,7 @@ track_params Track::fit(int N, float v_alpha, float l_alpha) {
       line->y[1] = y1_prev;
     }
   }
+  //std::cout << counter << " " << e/NUMBER_OF_LAYERS << '\n';
   track_params t;
   t.gradient = line->getGradient();
   t.v = v;

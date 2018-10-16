@@ -18,5 +18,5 @@ public:
   float* getX();
   float* getY();
   void setY(float y0, float y1);
-  float distanceToPoint(Hit* hit);
+  float distanceSquaredToPoint(Hit* hit);
 };
