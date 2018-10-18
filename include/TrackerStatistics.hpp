@@ -9,16 +9,17 @@
 
 
 void threadCallBack(
-  std::vector<Track*>* tracks,
+  Track** tracks,
   track_params* track_parameters,
   signed concurentThreadsSupported,
+  int number_tracks,
   int id
 );
 
 
 class TrackerStatistics {
 private:
-  std::vector<Track*> tracks;
+  Track** tracks;
   int number_tracks;
   track_params* track_parameters;
   unsigned concurentThreadsSupported;
