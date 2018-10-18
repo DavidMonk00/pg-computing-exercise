@@ -8,18 +8,18 @@ void threadCallBack(
 )
 {
   for (int i = id; i < tracks->size(); i = i + concurentThreadsSupported) {
-    track_parameters[i] = tracks->at(i)->fit(NUMBER_OF_ITERATIONS, V_ALPHA, P_ALPHA);
-    if (concurentThreadsSupported > 1) {
-      if (i % (tracks->size()/100) == 0) {
-        std::cout << i*100/tracks->size() << "\%" << '\n';
-      }
-    }
+    track_parameters[i] = tracks->at(i)->fit(V_ALPHA, P_ALPHA);
+    // if (concurentThreadsSupported > 1) {
+    //   if (i % (tracks->size()/100) == 0) {
+    //     std::cout << i*100/tracks->size() << "\%" << '\n';
+    //   }
+    // }
   }
 }
 
 TrackerStatistics::TrackerStatistics() {
   std::srand(std::time(NULL));
-  concurentThreadsSupported = std::thread::hardware_concurrency();
+  concurentThreadsSupported = 1;//std::thread::hardware_concurrency();
   std::cout << "Available threads: " << concurentThreadsSupported << '\n';
 }
 
