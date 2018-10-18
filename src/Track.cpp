@@ -3,8 +3,7 @@
 Track::Track(char* data) {
   hits = (Hit**)malloc(NUMBER_OF_LAYERS*sizeof(Hit*));
   for (int i = 0; i < NUMBER_OF_LAYERS; i++) {
-    hits[i] = new Hit(&data[i*NUMBER_OF_LAYERS]);
-    hits[i]->printValues();
+    hits[i] = new Hit(&data[2*i]);
   }
 }
 
