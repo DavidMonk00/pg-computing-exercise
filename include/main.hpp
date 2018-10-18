@@ -1,12 +1,6 @@
 #pragma once
 #include <iostream>
-#include <fstream>
-#include <iterator>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
-#include <array>
-#include <thread>
+#include <chrono>
 #include "constants.hpp"
 #include "Track.hpp"
 #include "TrackerStatistics.hpp"

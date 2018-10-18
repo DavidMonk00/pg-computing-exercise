@@ -10,10 +10,10 @@ void threadCallBack(
 {
   int start = number_tracks * id/concurentThreadsSupported;
   int end = number_tracks * (id + 1)/concurentThreadsSupported;
-  std::cout << "Thread ID: " << id << " " << start << " " << end << '\n';
+  std::cout << "Thread ID=" << id << " " << start << " " << end << '\n';
   int i, c=0;
   for (i = start; i < end; i++,c++) {
-    track_parameters[i] = tracks[i]->fit(V_ALPHA, P_ALPHA);
+    tracks[i]->fit(V_ALPHA, P_ALPHA, track_parameters, i);
     // if (concurentThreadsSupported > 1) {
     //   if (i % (tracks->size()/100) == 0) {
     //     std::cout << i*100/tracks->size() << "\%" << '\n';
@@ -25,7 +25,7 @@ void threadCallBack(
 
 TrackerStatistics::TrackerStatistics() {
   std::srand(std::time(NULL));
-  concurentThreadsSupported = 2;//std::thread::hardware_concurrency();
+  concurentThreadsSupported = 1;//std::thread::hardware_concurrency();
   //std::cout << "Available threads: " << concurentThreadsSupported << '\n';
 }
 
@@ -45,10 +45,12 @@ void TrackerStatistics::readFile(std::string filename) {
     number_tracks = size/TRACK_SIZE;
     file.seekg (0,std::ios::beg);
     tracks = (Track**)malloc(number_tracks*sizeof(Track*));
+    bytes = (char*)malloc(size*sizeof(char));
+    file.read(bytes, size);
+    char track[TRACK_SIZE];
     for (int i = 0; i < number_tracks; i++) {
-      char track[TRACK_SIZE];
-      file.read(track, TRACK_SIZE);
-      tracks[i] = new Track(track);
+      //file.read(track, TRACK_SIZE);
+      tracks[i] = new Track(&bytes[i*TRACK_SIZE]);
     }
     file.close();
   } else {

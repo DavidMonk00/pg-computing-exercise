@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <cstdlib>
+#include <random>
 #include "constants.hpp"
 #include "Hit.hpp"
 #include "Line.hpp"
@@ -17,5 +18,5 @@ private:
 public:
   Track (char* data);
   ~Track ();
-  track_params fit(float v_alpha, float l_alpha);
+  void fit(float v_alpha, float l_alpha, track_params* track_parameters, int id);
 };

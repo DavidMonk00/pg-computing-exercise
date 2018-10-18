@@ -10,7 +10,7 @@ Hit::Hit(char* data) {
     y = y + 0.5;
   }
   x = (float)x_init;
-  tdc_init = (bits>>6);//&0b1111111111;
+  tdc_init = (bits>>6);
   tdc = (float)tdc_init*0.5 + 0.25;
 }
 
