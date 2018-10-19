@@ -3,10 +3,10 @@
 Line::Line(Hit* hit0, Hit* hit1) {
   x = (float*)malloc(2*sizeof(float));
   y = (float*)malloc(2*sizeof(float));
-  x[0] = hit0->getX();
-  x[1] = hit1->getX();
-  y[0] = hit0->getY();
-  y[1] = hit1->getY();
+  x[0] = hit0->x;
+  x[1] = hit1->x;
+  y[0] = hit0->y;
+  y[1] = hit1->y;
 }
 
 Line::Line(float* xl, float* yl){
@@ -43,8 +43,8 @@ void Line::setY(float y0, float y1) {
 }
 
 float Line::distanceSquaredToPoint(Hit* hit) {
-  float xp = hit->getX();
-  float yp = hit->getY();
+  float xp = hit->x;
+  float yp = hit->y;
   float d = ((y[1]-y[0])*xp - (x[1] - x[0])*yp + x[1]*y[0] - y[1]*x[0])*((y[1]-y[0])*xp - (x[1] - x[0])*yp + x[1]*y[0] - y[1]*x[0]) /
             (y[1] - y[0])*(y[1] - y[0]) + (x[1] - x[0])*(x[1] - x[0]);
   return d;

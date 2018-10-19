@@ -5,9 +5,10 @@
 
 class Hit {
 private:
-  float x,y,tdc;
+
 
 public:
+  float x,y,tdc;
   Hit (char* data);
   ~Hit ();
   void printValues();

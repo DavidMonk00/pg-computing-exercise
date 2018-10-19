@@ -13,7 +13,7 @@ void threadCallBack(
   std::cout << "Thread ID=" << id << " " << start << " " << end << '\n';
   int i, c=0;
   for (i = start; i < end; i++,c++) {
-    tracks[i]->fit(V_ALPHA, P_ALPHA, track_parameters, i);
+    tracks[i]->fit(track_parameters, i);
     // if (concurentThreadsSupported > 1) {
     //   if (i % (tracks->size()/100) == 0) {
     //     std::cout << i*100/tracks->size() << "\%" << '\n';
@@ -43,6 +43,7 @@ void TrackerStatistics::readFile(std::string filename) {
   if (file.is_open()) {
     size = file.tellg();
     number_tracks = size/TRACK_SIZE;
+    std::cout << (number_tracks == TOTAL_TRACKS) << '\n';
     file.seekg (0,std::ios::beg);
     tracks = (Track**)malloc(number_tracks*sizeof(Track*));
     bytes = (char*)malloc(size*sizeof(char));

@@ -18,5 +18,5 @@ private:
 public:
   Track (char* data);
   ~Track ();
-  void fit(float v_alpha, float l_alpha, track_params* track_parameters, int id);
+  void fit(track_params* track_parameters, int id);
 };

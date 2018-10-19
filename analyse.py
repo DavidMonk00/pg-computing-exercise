@@ -16,6 +16,7 @@ def analyse_output():
 def main():
     a = [int(line.strip()) for line in open("./data/count")]
     print np.mean(a), np.std(a)
+    analyse_output()
 
 
 if __name__ == '__main__':
