@@ -12,7 +12,6 @@ void threadCallBack(
   Track** tracks,
   track_params* track_parameters,
   signed concurentThreadsSupported,
-  int number_tracks,
   int id
 );
 
@@ -21,7 +20,6 @@ class TrackerStatistics {
 private:
   Track** tracks;
   char* bytes;
-  int number_tracks;
   track_params* track_parameters;
   unsigned concurentThreadsSupported;
 

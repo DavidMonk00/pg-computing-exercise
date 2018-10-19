@@ -1,5 +1,5 @@
 import numpy as np
-#from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 
 
 def analyse_output():
@@ -14,9 +14,9 @@ def analyse_output():
 
 
 def main():
-    a = [int(line.strip()) for line in open("./data/count")]
-    print "Mean iterations: %.01f | std: %.01f"%(np.mean(a), np.std(a))
-    print "Track rejection: %.02f%% "%(float(a.count(500))/len(a)*100)
+    # a = [int(line.strip()) for line in open("./data/count")]
+    # print "Mean iterations: %.01f | std: %.01f"%(np.mean(a), np.std(a))
+    # print "Track rejection: %.02f%% "%(float(a.count(500))/len(a)*100)
     # plt.hist(a, bins=100)
     # plt.show()
     analyse_output()

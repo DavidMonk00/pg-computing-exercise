@@ -53,15 +53,15 @@ void Track::fit(track_params* track_parameters, int id) {
       line->y[1] = y1_prev;
     }
     if (counter == MAX_ITERATIONS) {
-      std::cout << "Counter: " << counter << "\n";
+      //std::cout << "Counter: " << counter << "\n";
       return;
     }
     counter++;
   }
-  std::cout << "Counter: " << counter << "\n"; // << e/NUMBER_OF_LAYERS << '\n';
+  //std::cout << "Counter: " << counter << "\n"; // << e/NUMBER_OF_LAYERS << '\n';
   //std::cout << line.getGradient() << " " << v << "\n";
   track_parameters[id].gradient = line->getGradient();
   track_parameters[id].v = v;
   delete line;
-  std::cout << "Final error: " << e/NUMBER_OF_LAYERS << '\n';
+  //std::cout << "Final error: " << e/NUMBER_OF_LAYERS << '\n';
 }
