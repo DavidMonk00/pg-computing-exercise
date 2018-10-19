@@ -8,5 +8,5 @@
 #define P_ALPHA 0.15
 #define ERROR_THRESHOLD 0.017//0.01
 #define FILENAME "./data/manytracks.raw"
-#define MAX_ITERATIONS 510
+#define MAX_ITERATIONS 250
 #define TOTAL_TRACKS 1e6
