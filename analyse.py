@@ -16,7 +16,7 @@ def analyse_output():
 def main():
     a = [int(line.strip()) for line in open("./data/count")]
     print "Mean iterations: %.01f | std: %.01f"%(np.mean(a), np.std(a))
-    print "Track rejection: %.02f%% "%(float(a.count(510))/len(a)*100)
+    print "Track rejection: %.02f%% "%(float(a.count(250))/len(a)*100)
     # plt.hist(a, bins=100)
     # plt.show()
     analyse_output()
