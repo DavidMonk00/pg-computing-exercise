@@ -4,7 +4,7 @@ int main(int argc, char const *argv[]) {
   TrackerStatistics* ts = new TrackerStatistics();
   std::cout << "Reading data..." << '\n';
   auto start = std::chrono::high_resolution_clock::now();
-  ts->readFile("./data/manytracks.raw");
+  ts->readFile(FILENAME);
   auto finish = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = finish - start;
   std::cout << "Elapsed time: " << elapsed.count() << " s\n";

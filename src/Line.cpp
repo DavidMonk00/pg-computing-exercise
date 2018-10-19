@@ -45,7 +45,8 @@ void Line::setY(float y0, float y1) {
 float Line::distanceSquaredToPoint(Hit* hit) {
   float xp = hit->x;
   float yp = hit->y;
-  float d = ((y[1]-y[0])*xp - (x[1] - x[0])*yp + x[1]*y[0] - y[1]*x[0])*((y[1]-y[0])*xp - (x[1] - x[0])*yp + x[1]*y[0] - y[1]*x[0]) /
-            (y[1] - y[0])*(y[1] - y[0]) + (x[1] - x[0])*(x[1] - x[0]);
+  float num = (x[1] - x[0])*(y[0] - yp) - (x[0] - xp)*(y[1] - y[0]);
+  float den = (y[1] - y[0])*(y[1] - y[0]) + (x[1] - x[0])*(x[1] - x[0]);
+  float d = std::abs(num) / std::sqrt(den);
   return d;
 }
