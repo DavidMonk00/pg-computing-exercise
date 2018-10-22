@@ -6,7 +6,7 @@
 #define V_INIT 0.0048
 #define V_ALPHA 0.001
 #define P_ALPHA 0.15
-#define ERROR_THRESHOLD 0.04//0.017//0.01
+#define ERROR_THRESHOLD 0.04*NUMBER_OF_LAYERS//0.017//0.01
 #define FILENAME "./data/manytracks.raw"
 #define MAX_ITERATIONS 500
 #define TOTAL_TRACKS 1e6

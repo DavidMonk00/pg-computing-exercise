@@ -3,8 +3,18 @@
 Track::Track(char* data) {
   hits = (Hit**)malloc(NUMBER_OF_LAYERS*sizeof(Hit*));
   for (int i = 0; i < NUMBER_OF_LAYERS; i++) {
-    hits[i] = new Hit(&data[2*i]);
-    //hits[i]->printValues();
+    hits[i] = new Hit;
+    unsigned short x_init, y_init, tdc_init;
+    unsigned short bits = (unsigned short)((data[2*i+1]<<8)^(data[2*i]&0xff));
+    x_init = bits&0b111;
+    y_init = (bits>>3)&0b111;
+    hits[i]->y = (float)y_init;
+    if (x_init % 2 == 1) {
+      hits[i]->y = hits[i]->y + 0.5;
+    }
+    hits[i]->x = (float)x_init;
+    tdc_init = (bits>>6);
+    hits[i]->tdc = (float)tdc_init*0.5 + 0.25;
   }
 }
 
@@ -28,12 +38,12 @@ void Track::fit(track_params* track_parameters, int id) {
   float e = 0;
   float tdc;
   for (i = 0; i < NUMBER_OF_LAYERS; i++) {
-    tdc = hits[i]->getTDC();
+    tdc = hits[i]->tdc;
     e += std::abs(tdc*v - line->distanceSquaredToPoint(hits[i]));
   }
   float e_new;
   float v_new;
-  while (e/NUMBER_OF_LAYERS > ERROR_THRESHOLD) {
+  while (e > ERROR_THRESHOLD) {
     e_new = 0;
     v_new = v + V_ALPHA*getRandomStep();
     v_new = (v_new > 0) ? v_new : v;
@@ -42,7 +52,7 @@ void Track::fit(track_params* track_parameters, int id) {
     line->y[0] += P_ALPHA*getRandomStep();
     line->y[1] += P_ALPHA*getRandomStep();
     for (j = 0; j < NUMBER_OF_LAYERS; j++) {
-      tdc = hits[j]->getTDC();
+      tdc = hits[j]->tdc;
       e_new += std::abs(tdc*v_new - line->distanceSquaredToPoint(hits[j]));
     }
     if (e_new < e) {

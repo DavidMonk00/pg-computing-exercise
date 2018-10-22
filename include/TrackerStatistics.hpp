@@ -17,10 +17,6 @@ struct ThreadParams {
   long id;
 };
 
-
-void* threadCallBack(void* tp);
-
-
 class TrackerStatistics {
 private:
   Track** tracks;
