@@ -1,31 +1,26 @@
 #include "TrackerStatistics.hpp"
 
-void threadCallBack(
-  Track** tracks,
-  track_params* track_parameters,
-  signed concurentThreadsSupported,
-  int id
-)
-{
+void* threadCallBack(void* tp) {
+  ThreadParams* t = (ThreadParams*)tp;
+  long id = t->id;
+  int concurentThreadsSupported = t->concurentThreadsSupported;
   int start = TOTAL_TRACKS * id/concurentThreadsSupported;
   int end = TOTAL_TRACKS * (id + 1)/concurentThreadsSupported;
   std::cout << "Thread ID=" << id << " " << start << " " << end << '\n';
+  track_params* track_parameters = t->track_parameters;
+  Track** tracks = t->tracks;
   int i, c=0;
   for (i = start; i < end; i++,c++) {
     tracks[i]->fit(track_parameters, i);
-    // if (concurentThreadsSupported > 1) {
-    //   if (i % (tracks->size()/100) == 0) {
-    //     std::cout << i*100/tracks->size() << "\%" << '\n';
-    //   }
-    // }
   }
   std::cout << c << '\n';
+  pthread_exit(NULL);
 }
 
 TrackerStatistics::TrackerStatistics() {
   std::srand(std::time(NULL));
   concurentThreadsSupported = 1;//std::thread::hardware_concurrency();
-  //std::cout << "Available threads: " << concurentThreadsSupported << '\n';
+  std::cout << "Available threads: " << concurentThreadsSupported << '\n';
 }
 
 TrackerStatistics::~TrackerStatistics() {
@@ -48,7 +43,6 @@ void TrackerStatistics::readFile(std::string filename) {
     file.read(bytes, TOTAL_TRACKS*TRACK_SIZE);
     char track[TRACK_SIZE];
     for (int i = 0; i < TOTAL_TRACKS; i++) {
-      //file.read(track, TRACK_SIZE);
       tracks[i] = new Track(&bytes[i*TRACK_SIZE]);
     }
     file.close();
@@ -59,25 +53,48 @@ void TrackerStatistics::readFile(std::string filename) {
 
 void TrackerStatistics::fit() {
   track_parameters = (track_params*)malloc(TOTAL_TRACKS*sizeof(track_params));
+  pthread_t thread[concurentThreadsSupported];
+  int rc;
+  long t;
+  void *status;
+  pthread_attr_t attr;
+  pthread_attr_init(&attr);
+  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
   std::vector<std::thread> threads;
   if (TOTAL_TRACKS > concurentThreadsSupported) {
-    for (int i = 0; i < concurentThreadsSupported; i++) {
-       threads.push_back(std::thread(threadCallBack, tracks, track_parameters, concurentThreadsSupported, i));
-     }
-    for (int i = 0; i < concurentThreadsSupported; i++) {
-      threads.at(i).join();
+    for (t = 0; t < concurentThreadsSupported; t++) {
+      ThreadParams* tp = new ThreadParams;
+      tp->tracks = tracks;
+      tp->track_parameters = track_parameters;
+      tp->concurentThreadsSupported = concurentThreadsSupported;
+      tp->id = t;
+      rc = pthread_create(&thread[t], &attr, threadCallBack, (void *)tp);
+      if (rc) {
+         printf("ERROR; return code from pthread_create() is %d\n", rc);
+         exit(-1);
+      }
+    }
+    pthread_attr_destroy(&attr);
+    for (t = 0; t < concurentThreadsSupported; t++) {
+      rc = pthread_join(thread[t], &status);
+      if (rc) {
+         printf("ERROR; return code from pthread_join() is %d\n", rc);
+         exit(-1);
+      }
     }
   } else {
-    //std::cout << "Running sequentially..." << '\n';
-    threadCallBack(tracks, track_parameters, 1, 0);
+    ThreadParams* tp = new ThreadParams;
+    tp->tracks = tracks;
+    tp->track_parameters = track_parameters;
+    tp->concurentThreadsSupported = 1;
+    tp->id = 0;
+    threads.push_back(std::thread(threadCallBack, (void*)tp));
   }
-  //std::cout << "Fit done." << '\n';
 }
 
 void TrackerStatistics::getStats() {
   float g_mean = 0;
   float v_mean = 0;
-  //std::cout << "Running analysis..." << '\n';
   for (int i = 0; i < TOTAL_TRACKS; i++) {
     g_mean += track_parameters[i].gradient;
     v_mean += track_parameters[i].v;

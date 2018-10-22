@@ -4,16 +4,21 @@
 #include <ctime>
 #include <cstdlib>
 #include <thread>
+#include <pthread.h>
+#include <omp.h>
 #include "constants.hpp"
 #include "Track.hpp"
 
 
-void threadCallBack(
-  Track** tracks,
-  track_params* track_parameters,
-  signed concurentThreadsSupported,
-  int id
-);
+struct ThreadParams {
+  Track** tracks;
+  track_params* track_parameters;
+  signed concurentThreadsSupported;
+  long id;
+};
+
+
+void* threadCallBack(void* tp);
 
 
 class TrackerStatistics {
