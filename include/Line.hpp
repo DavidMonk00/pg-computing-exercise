@@ -15,6 +15,8 @@ public:
   Line(float* xl, float* yl);
   ~Line();
   float getGradient();
+  float* getX();
+  float* getY();
   void setY(float y0, float y1);
   float distanceSquaredToPoint(Hit* hit);
 };

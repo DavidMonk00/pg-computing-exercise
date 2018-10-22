@@ -29,6 +29,14 @@ float Line::getGradient() {
   return std::atan(dy/dx)*180/PI;
 }
 
+float* Line::getX() {
+  return x;
+}
+
+float* Line::getY() {
+  return y;
+}
+
 void Line::setY(float y0, float y1) {
   y[0] = y0;
   y[1] = y1;

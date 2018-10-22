@@ -6,8 +6,8 @@ TARGET := bin/main
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -g -Ofast -fopenmp -std=c++11
-LIB := -lpthread -fopenmp
+CFLAGS := -g -std=c++11 -O3 -fopenmp
+LIB := -lpthread
 INC := -Iinclude
 
 $(TARGET): $(OBJECTS)
@@ -21,4 +21,3 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 clean:
 	@echo "Cleaning...";
 	@echo "$(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
-	$(RM) -r ./data/*.csv
