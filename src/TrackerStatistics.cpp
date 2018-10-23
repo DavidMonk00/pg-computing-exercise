@@ -7,10 +7,6 @@ TrackerStatistics::TrackerStatistics() {
 }
 
 TrackerStatistics::~TrackerStatistics() {
-  for (int i = 0; i < TOTAL_TRACKS; i++) {
-    delete tracks[i];
-  }
-  free(tracks);
   free(track_parameters);
 }
 
@@ -19,7 +15,6 @@ void TrackerStatistics::readFile(std::string filename) {
   std::ifstream file(filename, std::ios::in|std::ios::binary|std::ios::ate);
   if (file.is_open()) {
     file.seekg (0,std::ios::beg);
-    tracks = (Track**)malloc(TOTAL_TRACKS*sizeof(Track*));
     bytes = (char*)malloc(TOTAL_TRACKS*TRACK_SIZE*sizeof(char));
     file.read(bytes, TOTAL_TRACKS*TRACK_SIZE);
     file.close();
@@ -47,14 +42,11 @@ void TrackerStatistics::getStats() {
 }
 
 void TrackerStatistics::saveData(std::string filename) {
-  std::ofstream myfile (filename);
-  char buff[64];
-  if (myfile.is_open()) {
+  std::ofstream fout("./data/out.binary", std::ios::out|std::ios::binary);
+  if (fout.is_open()) {
     for (int i = 0; i < TOTAL_TRACKS; i++) {
-      snprintf(buff, 64, "%f,%f\n", track_parameters[i].gradient, track_parameters[i].v);
-      myfile << buff;
+      fout.write(reinterpret_cast<char *>(&track_parameters[i]), sizeof(track_parameters[i]));
     }
-    myfile.close();
   }
-  else std::cout << "Unable to open file";
+  fout.close();
 }

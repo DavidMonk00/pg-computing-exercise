@@ -1,24 +1,40 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import pandas as pd
+import struct
 
 
 def analyse_output():
-    a = [line.strip().split(",") for line in open("./data/output.csv") if (line != "0,0\n")]
-    a = np.array([[float(j) for j in i] for i in a])
-    print "Gradient = %.04f +/- %.04f"%(np.mean(a[:, 0]), np.std(a[:, 0]))
-    print "Drift velocity = %.05f +/- %.05f"%(np.mean(a[:, 1]), np.std(a[:, 1]))
-    # plt.hist(a[:, 0], bins=60)
+    file = open("./data/out.binary")
+    n = 2*1000000
+    data = struct.unpack('f'*n, file.read(4*n))
+    data = np.array(data).reshape(1000000, 2)
+    data = data[~np.all(data == 0, axis=1)]
+    print "Gradient = %.04f +/- %.04f" % (np.mean(data[:, 0]),
+                                          np.std(data[:, 0]))
+    print "Drift velocity = %.05f +/- %.05f" % (np.mean(data[:, 1]),
+                                                np.std(data[:, 1]))
+    # plt.hist(data[:, 0], bins=40)
     # plt.show()
-    # plt.hist(a[:, 1], bins=60)
+    # plt.hist(data[:, 1], bins=60)
+    # plt.show()
+
+
+def analyse_count():
+    df = pd.read_csv("./data/count")
+    data = df.values
+    nm = data[~np.any(data == 100, axis=1)]
+    print "Mean iterations: %.01f | std: %.01f" % (np.mean(nm), np.std(nm))
+    print "Track rejection: %.02f%% " % (
+        float(np.count_nonzero(data == 100))/len(data)*100
+    )
+    # plt.hist(nm, bins=100)
+    # #plt.yscale('log')
     # plt.show()
 
 
 def main():
-    # a = [int(line.strip()) for line in open("./data/count")]
-    # print "Mean iterations: %.01f | std: %.01f"%(np.mean(a), np.std(a))
-    # print "Track rejection: %.02f%% "%(float(a.count(500))/len(a)*100)
-    # plt.hist(a, bins=100)
-    # plt.show()
+    # analyse_count()
     analyse_output()
 
 

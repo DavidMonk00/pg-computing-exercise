@@ -9,17 +9,8 @@
 #include "constants.hpp"
 #include "Track.hpp"
 
-
-struct ThreadParams {
-  Track** tracks;
-  track_params* track_parameters;
-  signed concurentThreadsSupported;
-  long id;
-};
-
 class TrackerStatistics {
 private:
-  Track** tracks;
   char* bytes;
   track_params* track_parameters;
   unsigned concurentThreadsSupported;
