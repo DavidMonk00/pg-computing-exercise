@@ -5,7 +5,7 @@ import struct
 
 
 def analyse_output():
-    file = open("./data/out.binary")
+    file = open("./data/out.binary", "rb")
     n = 2*1000000
     data = struct.unpack('f'*n, file.read(4*n))
     data = np.array(data).reshape(1000000, 2)
