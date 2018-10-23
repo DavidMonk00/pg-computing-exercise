@@ -6,13 +6,14 @@
 #include <thread>
 #include <pthread.h>
 #include <omp.h>
+#include <unistd.h>
 #include "constants.hpp"
 #include "Track.hpp"
 
 class TrackerStatistics {
 private:
   char* bytes;
-  track_params* track_parameters;
+  track_params** track_parameters;
   unsigned concurentThreadsSupported;
 
 public:

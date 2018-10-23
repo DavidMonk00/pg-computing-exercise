@@ -7,6 +7,9 @@ TrackerStatistics::TrackerStatistics() {
 }
 
 TrackerStatistics::~TrackerStatistics() {
+  for (int i = 0; i < TOTAL_TRACKS; i++) {
+    delete track_parameters[i];
+  }
   free(track_parameters);
 }
 
@@ -24,11 +27,14 @@ void TrackerStatistics::readFile(std::string filename) {
 }
 
 void TrackerStatistics::fit() {
-  track_parameters = (track_params*)malloc(TOTAL_TRACKS*sizeof(track_params));
-  #pragma omp parallel for
+  track_parameters = (track_params**)malloc(TOTAL_TRACKS*sizeof(track_params*));
+  int number_tracks = TOTAL_TRACKS;
+  //#pragma omp parallel for
   for (int i = 0; i < number_tracks; i++) {
-    Track track = Track(&bytes[i*TRACK_SIZE]);
-    track.fit(track_parameters, i);
+    //sleep(1);
+    Track* track = new Track(&bytes[i*TRACK_SIZE]);
+    track_parameters[i] = track->fit();
+    delete track;
   }
 }
 
@@ -36,8 +42,8 @@ void TrackerStatistics::getStats() {
   float g_mean = 0;
   float v_mean = 0;
   for (int i = 0; i < TOTAL_TRACKS; i++) {
-    g_mean += track_parameters[i].gradient;
-    v_mean += track_parameters[i].v;
+    g_mean += track_parameters[i]->gradient;
+    v_mean += track_parameters[i]->v;
   }
   std::cout << g_mean/TOTAL_TRACKS << " " << v_mean/TOTAL_TRACKS << '\n';
 }
@@ -46,7 +52,7 @@ void TrackerStatistics::saveData(std::string filename) {
   std::ofstream fout("./data/out.binary", std::ios::out|std::ios::binary);
   if (fout.is_open()) {
     for (int i = 0; i < TOTAL_TRACKS; i++) {
-      fout.write(reinterpret_cast<char *>(&track_parameters[i]), sizeof(track_parameters[i]));
+      fout.write(reinterpret_cast<char *>(track_parameters[i]), sizeof(*track_parameters[i]));
     }
   }
   fout.close();

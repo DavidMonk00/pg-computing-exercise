@@ -29,7 +29,8 @@ float getRandomStep() {
   return 2*(float)std::rand()/RAND_MAX - 1;
 }
 
-void Track::fit(track_params* track_parameters, int id) {
+track_params* Track::fit() {
+  track_params* tp = new track_params;
   int i, j, counter;
   counter = 0;
   float v = V_INIT;
@@ -64,14 +65,15 @@ void Track::fit(track_params* track_parameters, int id) {
     }
     if (counter == MAX_ITERATIONS) {
       //std::cout << "Counter: " << counter << "\n";
-      return;
+      return tp;
     }
     counter++;
   }
   //std::cout << "Counter: " << counter << "\n"; // << e/NUMBER_OF_LAYERS << '\n';
   //std::cout << line.getGradient() << " " << v << "\n";
-  track_parameters[id].gradient = line->getGradient();
-  track_parameters[id].v = v;
+  tp->gradient = line->getGradient();
+  tp->v = v;
   delete line;
+  return tp;
   //std::cout << "Final error: " << e/NUMBER_OF_LAYERS << '\n';
 }
