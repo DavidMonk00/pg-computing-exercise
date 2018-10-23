@@ -26,7 +26,7 @@ void TrackerStatistics::readFile(std::string filename) {
 void TrackerStatistics::fit() {
   track_parameters = (track_params*)malloc(TOTAL_TRACKS*sizeof(track_params));
   #pragma omp parallel for
-  for (int i = 0; i < TOTAL_TRACKS; i++) {
+  for (int i = 0; i < number_tracks; i++) {
     Track track = Track(&bytes[i*TRACK_SIZE]);
     track.fit(track_parameters, i);
   }
