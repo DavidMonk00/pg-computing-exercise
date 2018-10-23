@@ -2,3 +2,4 @@
 *.gch
 *.csv
 ./data/*
+*.binary
