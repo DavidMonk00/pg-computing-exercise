@@ -1,11 +1,24 @@
+/**
+  @file TrackerStatistics.cpp
+  @brief Defines functions for the TrackerStatistics class.
+  @author David Monk - Imperial College London
+  @version 1.0
+*/
+
 #include "TrackerStatistics.hpp"
 
+/**
+   @brief Class constructor. Seeds random number generator.
+*/
 TrackerStatistics::TrackerStatistics() {
   std::srand(std::time(NULL));
   concurentThreadsSupported = 1;//std::thread::hardware_concurrency();
   std::cout << "Available threads: " << concurentThreadsSupported << '\n';
 }
 
+/**
+   @brief Class destructor.
+*/
 TrackerStatistics::~TrackerStatistics() {
   for (int i = 0; i < TOTAL_TRACKS; i++) {
     delete track_parameters[i];
@@ -13,6 +26,10 @@ TrackerStatistics::~TrackerStatistics() {
   free(track_parameters);
 }
 
+/**
+   @brief Read binary data into memory.
+   @param filename - String of the filenmae to be read.
+*/
 void TrackerStatistics::readFile(std::string filename) {
   std::streampos size;
   std::ifstream file(filename, std::ios::in|std::ios::binary|std::ios::ate);
@@ -26,6 +43,9 @@ void TrackerStatistics::readFile(std::string filename) {
   }
 }
 
+/**
+   @brief Iterate through all tracks and perform the fitting algorithm.
+*/
 void TrackerStatistics::fit() {
   track_parameters = (track_params**)malloc(TOTAL_TRACKS*sizeof(track_params*));
   int number_tracks = TOTAL_TRACKS;
@@ -38,16 +58,10 @@ void TrackerStatistics::fit() {
   }
 }
 
-void TrackerStatistics::getStats() {
-  float g_mean = 0;
-  float v_mean = 0;
-  for (int i = 0; i < TOTAL_TRACKS; i++) {
-    g_mean += track_parameters[i]->gradient;
-    v_mean += track_parameters[i]->v;
-  }
-  std::cout << g_mean/TOTAL_TRACKS << " " << v_mean/TOTAL_TRACKS << '\n';
-}
-
+/**
+   @brief Write the track parameters to a binary file.
+   @param filename - String of the filenmae to be written to.
+*/
 void TrackerStatistics::saveData(std::string filename) {
   std::ofstream fout("./data/out.binary", std::ios::out|std::ios::binary);
   if (fout.is_open()) {

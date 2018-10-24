@@ -1,5 +1,16 @@
+/**
+  @file Track.cpp
+  @brief Defines functions for the Track class.
+  @author David Monk - Imperial College London
+  @version 1.0
+*/
+
 #include "Track.hpp"
 
+/**
+   @brief Class constructor.
+   @param data - char array of binary data for the track.
+*/
 Track::Track(char* data) {
   hits = (Hit**)malloc(NUMBER_OF_LAYERS*sizeof(Hit*));
   for (int i = 0; i < NUMBER_OF_LAYERS; i++) {
@@ -18,6 +29,9 @@ Track::Track(char* data) {
   }
 }
 
+/**
+   @brief Class destructor.
+*/
 Track::~Track() {
   for (int i = 0; i < NUMBER_OF_LAYERS; i++) {
     delete hits[i];
@@ -25,10 +39,18 @@ Track::~Track() {
   free(hits);
 }
 
+/**
+   @brief Get a random float between -1 and 1.
+   @return Random float in range.
+*/
 float getRandomStep() {
   return 2*(float)std::rand()/RAND_MAX - 1;
 }
 
+/**
+   @brief Fit a line to the Hit objects.
+   @return Pointer to track_params object containing the gradient of the track and the drift velocity.
+*/
 track_params* Track::fit() {
   track_params* tp = new track_params;
   int i, j, counter;
@@ -40,7 +62,7 @@ track_params* Track::fit() {
   float tdc;
   for (i = 0; i < NUMBER_OF_LAYERS; i++) {
     tdc = hits[i]->tdc;
-    e += std::abs(tdc*v - line->distanceSquaredToPoint(hits[i]));
+    e += std::abs(tdc*v - line->distanceToPoint(hits[i]));
   }
   float e_new;
   float v_new;
@@ -54,7 +76,7 @@ track_params* Track::fit() {
     line->y[1] += P_ALPHA*getRandomStep();
     for (j = 0; j < NUMBER_OF_LAYERS; j++) {
       tdc = hits[j]->tdc;
-      e_new += std::abs(tdc*v_new - line->distanceSquaredToPoint(hits[j]));
+      e_new += std::abs(tdc*v_new - line->distanceToPoint(hits[j]));
     }
     if (e_new < e) {
       e = e_new;

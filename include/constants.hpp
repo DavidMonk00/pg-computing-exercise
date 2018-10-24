@@ -1,3 +1,10 @@
+/**
+  @file constants.hpp
+  @brief Defines the constants used throughout the program.
+  @author David Monk - Imperial College London
+  @version 1.0
+*/
+
 #pragma once
 
 #define TRACK_SIZE 16

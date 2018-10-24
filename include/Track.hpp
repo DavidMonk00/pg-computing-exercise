@@ -1,3 +1,10 @@
+/**
+  @file TRACK_SIZE.hpp
+  @brief Defines the Track class.
+  @author David Monk - Imperial College London
+  @version 1.0
+*/
+
 #pragma once
 #include <iostream>
 #include <cstdlib>

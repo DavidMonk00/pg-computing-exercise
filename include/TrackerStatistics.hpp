@@ -1,12 +1,14 @@
-#include <string>
-#include <vector>
+/**
+  @file TrackerStatistics.hpp
+  @brief Defines the TrackerStatistics class.
+  @author David Monk - Imperial College London
+  @version 1.0
+*/
+
 #include <fstream>
 #include <ctime>
 #include <cstdlib>
-#include <thread>
-#include <pthread.h>
 #include <omp.h>
-#include <unistd.h>
 #include "constants.hpp"
 #include "Track.hpp"
 

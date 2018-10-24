@@ -1,7 +1,11 @@
+/**
+  @file Hit.hpp
+  @brief Defines the Hit class.
+  @author David Monk - Imperial College London
+  @version 1.0
+*/
+
 #pragma once
-#include <iostream>
-#include <cstdlib>
-#include <cmath>
 
 struct Hit {
   float x,y,tdc;
