@@ -1,3 +1,10 @@
+/**
+  main.cpp
+  Purpose: main function file.
+  @author David Monk - Imperial College London
+  @version 1.0
+*/
+
 #include "main.hpp"
 
 int main(int argc, char const *argv[]) {

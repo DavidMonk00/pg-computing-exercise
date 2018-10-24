@@ -1,66 +1,73 @@
+/**
+  @file TrackerStatistics.cpp
+  @brief Defines functions for the TrackerStatistics class.
+  @author David Monk - Imperial College London
+  @version 1.0
+*/
+
 #include "TrackerStatistics.hpp"
 
+/**
+   @brief Class constructor. Seeds random number generator.
+*/
 TrackerStatistics::TrackerStatistics() {
   std::srand(std::time(NULL));
   concurentThreadsSupported = 1;//std::thread::hardware_concurrency();
-  //std::cout << "Available threads: " << concurentThreadsSupported << '\n';
+  std::cout << "Available threads: " << concurentThreadsSupported << '\n';
 }
 
+/**
+   @brief Class destructor.
+*/
 TrackerStatistics::~TrackerStatistics() {
+  for (int i = 0; i < TOTAL_TRACKS; i++) {
+    delete track_parameters[i];
+  }
   free(track_parameters);
 }
 
+/**
+   @brief Read binary data into memory.
+   @param filename - String of the filenmae to be read.
+*/
 void TrackerStatistics::readFile(std::string filename) {
   std::streampos size;
   std::ifstream file(filename, std::ios::in|std::ios::binary|std::ios::ate);
   if (file.is_open()) {
-    size = file.tellg();
-    number_tracks = size/TRACK_SIZE;
     file.seekg (0,std::ios::beg);
-    bytes = (char*)malloc(size*sizeof(char));
-    file.read(bytes, size);
+    bytes = (char*)malloc(TOTAL_TRACKS*TRACK_SIZE*sizeof(char));
+    file.read(bytes, TOTAL_TRACKS*TRACK_SIZE);
     file.close();
   } else {
     std::cout << "Unable to open file" << std::endl;
   }
 }
 
+/**
+   @brief Iterate through all tracks and perform the fitting algorithm.
+*/
 void TrackerStatistics::fit() {
-  track_parameters = (track_params*)malloc(number_tracks*sizeof(track_params));
-  for (int i = 0; i < TOTAL_TRACKS; i++) {
-    // auto start = std::chrono::high_resolution_clock::now();
-    Track track = Track(&bytes[i*TRACK_SIZE]);
-    // auto finish = std::chrono::high_resolution_clock::now();
-    // std::chrono::duration<double> elapsed = finish - start;
-    // std::cout << "Elapsed time to create Track object: " << elapsed.count() << " s\n";
-    // start = std::chrono::high_resolution_clock::now();
-    track.fit(track_parameters, i);
-    // finish = std::chrono::high_resolution_clock::now();
-    // elapsed = finish - start;
-    // std::cout << "Elapsed time to fit track: " << elapsed.count() << " s\n";
-  }
-}
-
-void TrackerStatistics::getStats() {
-  float g_mean = 0;
-  float v_mean = 0;
-  //std::cout << "Running analysis..." << '\n';
+  track_parameters = (track_params**)malloc(TOTAL_TRACKS*sizeof(track_params*));
+  int number_tracks = TOTAL_TRACKS;
+  //#pragma omp parallel for
   for (int i = 0; i < number_tracks; i++) {
-    g_mean += track_parameters[i].gradient;
-    v_mean += track_parameters[i].v;
+    //sleep(1);
+    Track* track = new Track(&bytes[i*TRACK_SIZE]);
+    track_parameters[i] = track->fit();
+    delete track;
   }
-  std::cout << g_mean/number_tracks << " " << v_mean/number_tracks << '\n';
 }
 
+/**
+   @brief Write the track parameters to a binary file.
+   @param filename - String of the filenmae to be written to.
+*/
 void TrackerStatistics::saveData(std::string filename) {
-  std::ofstream myfile (filename);
-  char buff[64];
-  if (myfile.is_open()) {
+  std::ofstream fout("./data/out.binary", std::ios::out|std::ios::binary);
+  if (fout.is_open()) {
     for (int i = 0; i < TOTAL_TRACKS; i++) {
-      snprintf(buff, sizeof buff, "%f,%f\n", track_parameters[i].gradient, track_parameters[i].v);
-      myfile << buff;
+      fout.write(reinterpret_cast<char *>(track_parameters[i]), sizeof(*track_parameters[i]));
     }
-    myfile.close();
   }
-  else std::cout << "Unable to open file";
+  fout.close();
 }

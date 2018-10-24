@@ -1,24 +1,12 @@
-#pragma once
-#include <iostream>
-#include <cstdlib>
-#include <cmath>
+/**
+  @file Hit.hpp
+  @brief Defines the Hit class.
+  @author David Monk - Imperial College London
+  @version 1.0
+*/
 
+#pragma once
 
 struct Hit {
   float x,y,tdc;
 };
-
-
-// class Hit {
-// private:
-//
-//
-// public:
-//   float x,y,tdc;
-//   Hit (char* data);
-//   ~Hit ();
-//   void printValues();
-//   float getX();
-//   float getY();
-//   float getTDC();
-// };

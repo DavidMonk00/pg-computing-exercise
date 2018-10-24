@@ -22,3 +22,4 @@ clean:
 	@echo "Cleaning...";
 	@echo "$(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
 	$(RM) -r ./data/*.csv
+	$(RM) -r ./data/*.binary
