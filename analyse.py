@@ -19,8 +19,8 @@ class Analytics:
     def analyseCount(self):
         try:
             import pandas as pd
-        except ImportError:
-            raise ImportError("This is 2018...")
+        except ImportError as e:
+            raise e
         df = pd.read_csv("./data/count")
         data = df.values
         self.nm = data[~np.any(data == 100, axis=1)]
