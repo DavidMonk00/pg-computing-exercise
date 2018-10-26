@@ -17,6 +17,7 @@ int main(int argc, char const *argv[]) {
   std::cout << "Elapsed time: " << elapsed.count() << " s\n";
   std::cout << "Fitting..." << '\n';
   start = std::chrono::high_resolution_clock::now();
+  ts->initialiseMemory();
   ts->fit();
   finish = std::chrono::high_resolution_clock::now();
   elapsed = finish - start;

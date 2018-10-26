@@ -11,6 +11,7 @@
    @brief Class constructor. Seeds random number generator.
 */
 TrackerStatistics::TrackerStatistics() {
+  number_of_batches = (int)(TOTAL_TRACKS/BATCH_SIZE);
   std::srand(std::time(NULL));
   concurentThreadsSupported = 1;//std::thread::hardware_concurrency();
   std::cout << "Available threads: " << concurentThreadsSupported << '\n';
@@ -31,7 +32,6 @@ TrackerStatistics::~TrackerStatistics() {
    @param filename - String of the filenmae to be read.
 */
 void TrackerStatistics::readFile(std::string filename) {
-  std::streampos size;
   std::ifstream file(filename, std::ios::in|std::ios::binary|std::ios::ate);
   if (file.is_open()) {
     file.seekg (0,std::ios::beg);
@@ -43,18 +43,25 @@ void TrackerStatistics::readFile(std::string filename) {
   }
 }
 
+
+void TrackerStatistics::initialiseMemory() {
+  track_parameters = (track_params**)malloc(TOTAL_TRACKS*sizeof(track_params*));
+}
+
+
 /**
    @brief Iterate through all tracks and perform the fitting algorithm.
 */
 void TrackerStatistics::fit() {
-  track_parameters = (track_params**)malloc(TOTAL_TRACKS*sizeof(track_params*));
   int number_tracks = TOTAL_TRACKS;
+  int i,j;
   //#pragma omp parallel for
-  for (int i = 0; i < number_tracks; i++) {
-    //sleep(1);
-    Track* track = new Track(&bytes[i*TRACK_SIZE]);
-    track_parameters[i] = track->fit();
-    delete track;
+  for (i = 0; i < number_of_batches; i++) {
+    for (j = 0; j < BATCH_SIZE; j++) {
+      Track* track = new Track(&bytes[(int)((i*BATCH_SIZE + j)*TRACK_SIZE)]);
+      track_parameters[(int)((i*BATCH_SIZE + j))] = track->fit();
+      delete track;
+    }
   }
 }
 
@@ -65,8 +72,11 @@ void TrackerStatistics::fit() {
 void TrackerStatistics::saveData(std::string filename) {
   std::ofstream fout("./data/out.binary", std::ios::out|std::ios::binary);
   if (fout.is_open()) {
-    for (int i = 0; i < TOTAL_TRACKS; i++) {
-      fout.write(reinterpret_cast<char *>(track_parameters[i]), sizeof(*track_parameters[i]));
+    int i,j;
+    for (i = 0; i < number_of_batches; i++) {
+      for (j = 0; j < BATCH_SIZE; j++) {
+        fout.write(reinterpret_cast<char *>(track_parameters[(int)((i*BATCH_SIZE + j))]), sizeof(*track_parameters[(int)((i*BATCH_SIZE + j))]));
+      }
     }
   }
   fout.close();

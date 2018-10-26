@@ -17,3 +17,4 @@
 #define FILENAME "./data/manytracks.raw"
 #define MAX_ITERATIONS 100
 #define TOTAL_TRACKS 1e6
+#define BATCH_SIZE 1e4
