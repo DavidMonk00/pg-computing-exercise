@@ -40,10 +40,17 @@ class Analytics:
     def plotGradient(self):
         try:
             from matplotlib import pyplot as plt
+            import matplotlib.mlab as mlab
         except ImportError:
             raise ImportError("Why is matplotlib not installed??")
         try:
-            plt.hist(self.data[:, 0], bins=40)
+            plt.hist(self.data[:, 0], bins=40, normed=True)
+            mu = np.mean(self.data[:, 0])
+            sigma = np.std(self.data[:, 0])
+            x = np.linspace(mu - 4*sigma, mu + 4*sigma, 100)
+            plt.plot(x, mlab.normpdf(x, mu, sigma), linewidth=3.0, c='red')
+            plt.xlabel("Track angle (degrees)")
+            plt.ylabel("Normalised frequency")
             plt.show()
         except AttributeError:
             self.analyseOutput()
@@ -53,10 +60,17 @@ class Analytics:
     def plotDriftVelocity(self):
         try:
             from matplotlib import pyplot as plt
+            import matplotlib.mlab as mlab
         except ImportError:
             raise ImportError("Why is matplotlib not installed??")
         try:
-            plt.hist(self.data[:, 1], bins=40)
+            plt.hist(self.data[:, 1], bins=60, normed=True)
+            mu = np.mean(self.data[:, 1])
+            sigma = np.std(self.data[:, 1])
+            x = np.linspace(mu - 4*sigma, mu + 4*sigma, 100)
+            plt.plot(x, mlab.normpdf(x, mu, sigma), linewidth=3.0, c='red')
+            plt.xlabel("Drift velocity (cm/ns)")
+            plt.ylabel("Normalised frequency")
             plt.show()
         except AttributeError:
             self.analyseOutput()

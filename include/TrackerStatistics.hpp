@@ -2,7 +2,7 @@
   @file TrackerStatistics.hpp
   @brief Defines the TrackerStatistics class.
   @author David Monk - Imperial College London
-  @version 1.0
+  @version 1.1
 */
 
 #include <fstream>
@@ -26,6 +26,5 @@ public:
   void readFile(std::string filename);
   void initialiseMemory();
   void fit();
-  void getStats();
   void saveData(std::string filename);
 };

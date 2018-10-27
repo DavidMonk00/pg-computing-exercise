@@ -18,4 +18,4 @@ make
 echo "Running..."
 time ./bin/main #| awk '/Counter/ {print $2 > "./data/count";}'
 echo "Analysing..."
-time python analyse.py
+time python analyse.py plot

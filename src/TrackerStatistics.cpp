@@ -2,7 +2,7 @@
   @file TrackerStatistics.cpp
   @brief Defines functions for the TrackerStatistics class.
   @author David Monk - Imperial College London
-  @version 1.0
+  @version 1.1
 */
 
 #include "TrackerStatistics.hpp"
@@ -43,7 +43,9 @@ void TrackerStatistics::readFile(std::string filename) {
   }
 }
 
-
+/**
+   @brief Allocate memory for both the track objects and returned parameters.
+*/
 void TrackerStatistics::initialiseMemory() {
   track_parameters = (track_params**)malloc(TOTAL_TRACKS*sizeof(track_params*));
 }
