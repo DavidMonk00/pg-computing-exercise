@@ -22,20 +22,6 @@ Line::Line(Hit* hit0, Hit* hit1) {
 }
 
 /**
-   @brief Class constructor.
-   @param xl - array of floats defining the two x co-ordinates for the line.
-   @param yl - array of floats defining the two y co-ordinates for the line.
-*/
-Line::Line(float* xl, float* yl){
-  x = (float*)malloc(2*sizeof(float));
-  y = (float*)malloc(2*sizeof(float));
-  x[0] = xl[0];
-  x[1] = xl[1];
-  y[0] = yl[0];
-  y[1] = yl[1];
-}
-
-/**
    @brief Class destructor.
 */
 Line::~Line() {
@@ -51,16 +37,6 @@ float Line::getGradient() {
   float dy = y[1] - y[0];
   float dx = x[1] - x[0];
   return std::atan(dy/dx)*180/PI;
-}
-
-/**
-   @brief Set y co-ordinates for the line.
-   @param y0 - Float of y co-ordinate for the start of the line.
-   @param y1 - Float of y co-ordinate for the end of the line.
-*/
-void Line::setY(float y0, float y1) {
-  y[0] = y0;
-  y[1] = y1;
 }
 
 /**
