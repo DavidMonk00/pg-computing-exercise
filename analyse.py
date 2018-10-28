@@ -23,7 +23,7 @@ class Analytics:
             import pandas as pd
         except ImportError as e:
             raise e
-        df = pd.read_csv("./data/count")
+        df = pd.read_csv("./data/count.raw")
         data = df.values
         self.nm = data[~np.any(data == max(data), axis=1)]
         print "Mean iterations: %.01f | std: %.01f" % (np.mean(self.nm),

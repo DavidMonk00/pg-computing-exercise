@@ -16,6 +16,6 @@
 make clean
 make
 echo "Running..."
-time ./bin/main | awk '/Counter/ {print $2 > "./data/count";}'
+time ./bin/main | awk '/Counter/ {print $2 > "./data/count.raw";}'
 echo "Analysing..."
 time python analyse.py plot count
