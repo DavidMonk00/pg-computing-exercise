@@ -48,6 +48,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -117,17 +118,13 @@ $(document).ready(function(){initNavTree('classanalyse_1_1_analytics.html','');}
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac0e1fcd83f7f6c0552d92e83f7ab8aaa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac0e1fcd83f7f6c0552d92e83f7ab8aaa"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>analyseOutput</b> (self)</td></tr>
+<tr class="memitem:ac0e1fcd83f7f6c0552d92e83f7ab8aaa"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanalyse_1_1_analytics.html#ac0e1fcd83f7f6c0552d92e83f7ab8aaa">analyseOutput</a> (self)</td></tr>
 <tr class="separator:ac0e1fcd83f7f6c0552d92e83f7ab8aaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28f480eb699e5204ddc73ec38031a649"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a28f480eb699e5204ddc73ec38031a649"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>analyseCount</b> (self)</td></tr>
+<tr class="memitem:a28f480eb699e5204ddc73ec38031a649"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanalyse_1_1_analytics.html#a28f480eb699e5204ddc73ec38031a649">analyseCount</a> (self)</td></tr>
 <tr class="separator:a28f480eb699e5204ddc73ec38031a649"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12f4749b9b9a849d4bc1ee8ea5354729"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12f4749b9b9a849d4bc1ee8ea5354729"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>plotGradient</b> (self)</td></tr>
+<tr class="memitem:a12f4749b9b9a849d4bc1ee8ea5354729"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanalyse_1_1_analytics.html#a12f4749b9b9a849d4bc1ee8ea5354729">plotGradient</a> (self)</td></tr>
 <tr class="separator:a12f4749b9b9a849d4bc1ee8ea5354729"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0137062373064b06597310c093001f2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0137062373064b06597310c093001f2"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>plotDriftVelocity</b> (self)</td></tr>
+<tr class="memitem:af0137062373064b06597310c093001f2"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classanalyse_1_1_analytics.html#af0137062373064b06597310c093001f2">plotDriftVelocity</a> (self)</td></tr>
 <tr class="separator:af0137062373064b06597310c093001f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -145,6 +142,83 @@ Static Public Attributes</h2></td></tr>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>n</b> = 2000000</td></tr>
 <tr class="separator:a50160235050ea1cb3cf6d0a49bb3cef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><pre class="fragment">Analytics class. Provides methods for both fit data and algorithm
+efficiency.
+</pre> </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a28f480eb699e5204ddc73ec38031a649"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def analyse.Analytics.analyseCount </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Analyse the efficiency of the fitting algorithm.
+Prints to stdout the mean and std of the number of iterations required
+to converge. Also plots a histogram of the number of iterations for
+each track.
+</pre> 
+</div>
+</div>
+<a class="anchor" id="ac0e1fcd83f7f6c0552d92e83f7ab8aaa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def analyse.Analytics.analyseOutput </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Analyse the output of the fitting algorithm.
+Prints to stdout the mean and std of both the gradient and drift
+velocity.
+</pre> 
+</div>
+</div>
+<a class="anchor" id="af0137062373064b06597310c093001f2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def analyse.Analytics.plotDriftVelocity </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Plot a histogram of the drift velocity of the tracks.
+</pre> 
+</div>
+</div>
+<a class="anchor" id="a12f4749b9b9a849d4bc1ee8ea5354729"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def analyse.Analytics.plotGradient </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Plot a histogram of the gradient of the tracks.
+</pre> 
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>analyse.py</li>
 </ul>
@@ -153,7 +227,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>n</b> = 2000000</td></
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>analyse</b></li><li class="navelem"><a class="el" href="classanalyse_1_1_analytics.html">Analytics</a></li>
+    <li class="navelem"><a class="el" href="namespaceanalyse.html">analyse</a></li><li class="navelem"><a class="el" href="classanalyse_1_1_analytics.html">Analytics</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>

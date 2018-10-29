@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['track',['Track',['../class_track.html#a5fdaa9e8eac74701c0796910709b4709',1,'Track']]],
-  ['trackerstatistics',['TrackerStatistics',['../class_tracker_statistics.html#a155d458b7c1338712d488046a2de3f0b',1,'TrackerStatistics']]]
+  ['plotdriftvelocity',['plotDriftVelocity',['../classanalyse_1_1_analytics.html#af0137062373064b06597310c093001f2',1,'analyse::Analytics']]],
+  ['plotgradient',['plotGradient',['../classanalyse_1_1_analytics.html#a12f4749b9b9a849d4bc1ee8ea5354729',1,'analyse::Analytics']]]
 ];

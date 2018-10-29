@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['line',['Line',['../class_line.html#a6d89f080abc6a38955bdc870aae976c9',1,'Line']]]
+  ['initialisememory',['initialiseMemory',['../class_tracker_statistics.html#adf66478133f56c97257ce7abe75357ad',1,'TrackerStatistics']]]
 ];

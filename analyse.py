@@ -1,12 +1,25 @@
+"""
+  Python script to perform analysis on fit data.
+"""
+
 import numpy as np
 from struct import unpack
 from sys import argv
 
 
 class Analytics:
+    """
+    Analytics class. Provides methods for both fit data and algorithm
+    efficiency.
+    """
     n = 2000000
 
     def analyseOutput(self):
+        """
+        Analyse the output of the fitting algorithm.
+        Prints to stdout the mean and std of both the gradient and drift
+        velocity.
+        """
         file = open("./data/out.binary", "rb")
         data = unpack('f'*self.n, file.read(4*self.n))
         data = np.array(data).reshape(1000000, 2)
@@ -19,6 +32,12 @@ class Analytics:
         )
 
     def analyseCount(self):
+        """
+        Analyse the efficiency of the fitting algorithm.
+        Prints to stdout the mean and std of the number of iterations required
+        to converge. Also plots a histogram of the number of iterations for
+        each track.
+        """
         try:
             import pandas as pd
         except ImportError as e:
@@ -40,6 +59,9 @@ class Analytics:
             raise ImportError("Why is matplotlib not installed??")
 
     def plotGradient(self):
+        """
+        Plot a histogram of the gradient of the tracks.
+        """
         try:
             from matplotlib import pyplot as plt
             import matplotlib.mlab as mlab
@@ -60,6 +82,9 @@ class Analytics:
             plt.show()
 
     def plotDriftVelocity(self):
+        """
+        Plot a histogram of the drift velocity of the tracks.
+        """
         try:
             from matplotlib import pyplot as plt
             import matplotlib.mlab as mlab
@@ -81,6 +106,9 @@ class Analytics:
 
 
 def main():
+    """
+    Main function for the analysis.
+    """
     a = Analytics()
     a.analyseOutput()
     try:

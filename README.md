@@ -11,7 +11,8 @@ form a three-dimensional parameter space in which the error is minimised:
 
 The error for a fitted track is calculated by the distance of each wire to the
 fitted track and subtracting this from the hit radius, calculated by multiplying
-the drift time by the drift velocity.
+the drift time by the drift velocity. This error is then minimsed to achieve a
+fitted track.
 
 ![e = sum(v*ti - di)](/home/david/computing/project/doc/CodeCogsEqn1.png)
 

@@ -1,8 +1,6 @@
 var annotated_dup =
 [
-    [ "analyse", null, [
-      [ "Analytics", "classanalyse_1_1_analytics.html", "classanalyse_1_1_analytics" ]
-    ] ],
+    [ "analyse", "namespaceanalyse.html", "namespaceanalyse" ],
     [ "Hit", "struct_hit.html", "struct_hit" ],
     [ "Line", "class_line.html", "class_line" ],
     [ "Track", "class_track.html", "class_track" ],

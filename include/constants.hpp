@@ -15,6 +15,6 @@
 #define P_ALPHA 0.18
 #define ERROR_THRESHOLD 0.02*NUMBER_OF_LAYERS//0.017//0.01
 #define FILENAME "./data/manytracks.raw"
-#define MAX_ITERATIONS 200
+#define MAX_ITERATIONS 500
 #define TOTAL_TRACKS 1e6
 #define BATCH_SIZE 1e4
